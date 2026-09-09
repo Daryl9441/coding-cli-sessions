@@ -21,6 +21,8 @@ Coverage includes every `src/**/*.ts` and `src/**/*.tsx` file except the type co
 
 Other gates are TypeScript source and test checks, `ray build`, `ray lint`, formatting, the AST-based privacy scanner, gitleaks, and npm dependency auditing. No whole-module coverage exclusions are used to hide the UI.
 
+The built supervisor bundle is additionally launched as a real subprocess with a synthetic HOME and temporary socket. It must execute a fixture and preserve task state across client disconnects. CI rebuilds the bundle and rejects source/bundle drift.
+
 ## Native host acceptance still required before release
 
 1. Import through `npm run dev` on an unlocked Mac with the target Raycast version.

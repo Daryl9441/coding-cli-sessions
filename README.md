@@ -2,6 +2,8 @@
 
 A native Raycast extension for starting and observing local Claude Code and Codex CLI tasks. Tasks use the CLIs' structured JSON streams. A small local Node supervisor keeps managed tasks alive when the Raycast window closes.
 
+[Public source repository](https://github.com/Daryl9441/coding-cli-sessions) · [Validation record](docs/validation.md)
+
 **Status: unreleased.** Implementation and automated validation are available. Store submission still requires a verified Raycast author, native host acceptance and screenshots, and resolution of the Codex approval-policy compatibility exception described below. This project is independently maintained and is not affiliated with Anthropic or OpenAI.
 
 ## Requirements

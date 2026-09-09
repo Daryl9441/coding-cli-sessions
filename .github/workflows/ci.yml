@@ -21,6 +21,7 @@ jobs:
       - run: npm ci --ignore-scripts
       - run: npm run check:privacy
       - run: npm run build
+      - run: git diff --exit-code -- assets/supervisor.cjs
       - run: npm run typecheck
       - run: npm run test:coverage
       - run: npm run lint

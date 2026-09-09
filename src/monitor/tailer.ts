@@ -5,6 +5,7 @@ import { openSession, SessionFile } from "./files";
 export class SessionTailer {
   private offset = 0;
   private inode = -1;
+  private birthtime = -1;
   private pending = "";
   private decoder = new StringDecoder("utf8");
   constructor(
@@ -18,11 +19,12 @@ export class SessionTailer {
     try {
       handle = await openSession(this.home, this.file.engine, this.file.path);
       const stat = await handle.stat();
-      if (stat.ino !== this.inode || stat.size < this.offset) {
+      if (stat.ino !== this.inode || stat.birthtimeMs !== this.birthtime || stat.size < this.offset) {
         this.offset = 0;
         this.pending = "";
         this.decoder = new StringDecoder("utf8");
         this.inode = stat.ino;
+        this.birthtime = stat.birthtimeMs;
       }
       let skipFragment = false;
       if (stat.size - this.offset > this.maxBytes) {
@@ -49,6 +51,13 @@ export class SessionTailer {
       this.file.mtime = stat.mtimeMs;
       return true;
     } catch {
+      // Deleted files can be recreated with the same inode (for example on ext4).
+      // Never carry an old cursor or partial UTF-8 record across an unavailable file.
+      this.inode = -1;
+      this.birthtime = -1;
+      this.offset = 0;
+      this.pending = "";
+      this.decoder = new StringDecoder("utf8");
       return false;
     } finally {
       await handle?.close();

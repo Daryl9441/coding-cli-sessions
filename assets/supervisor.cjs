@@ -311,6 +311,7 @@ var SessionTailer = class {
   maxBytes;
   offset = 0;
   inode = -1;
+  birthtime = -1;
   pending = "";
   decoder = new import_node_string_decoder.StringDecoder("utf8");
   async poll(onValue) {
@@ -318,11 +319,12 @@ var SessionTailer = class {
     try {
       handle = await openSession(this.home, this.file.engine, this.file.path);
       const stat2 = await handle.stat();
-      if (stat2.ino !== this.inode || stat2.size < this.offset) {
+      if (stat2.ino !== this.inode || stat2.birthtimeMs !== this.birthtime || stat2.size < this.offset) {
         this.offset = 0;
         this.pending = "";
         this.decoder = new import_node_string_decoder.StringDecoder("utf8");
         this.inode = stat2.ino;
+        this.birthtime = stat2.birthtimeMs;
       }
       let skipFragment = false;
       if (stat2.size - this.offset > this.maxBytes) {
@@ -348,6 +350,11 @@ var SessionTailer = class {
       this.file.mtime = stat2.mtimeMs;
       return true;
     } catch {
+      this.inode = -1;
+      this.birthtime = -1;
+      this.offset = 0;
+      this.pending = "";
+      this.decoder = new import_node_string_decoder.StringDecoder("utf8");
       return false;
     } finally {
       await handle?.close();
