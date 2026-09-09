@@ -1,0 +1,15 @@
+name: Feature request
+description: Propose a local CLI workflow improvement
+body:
+  - type: textarea
+    id: workflow
+    attributes:
+      label: Workflow and desired result
+      description: Describe the task and how the feature would help. Exclude sensitive data.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: CLI support and privacy impact
+      description: Link current official documentation if the request depends on a CLI capability.

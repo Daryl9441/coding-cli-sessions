@@ -1,0 +1,103 @@
+{
+  "$schema": "https://www.raycast.com/schemas/extension.json",
+  "name": "coding-cli-sessions",
+  "title": "Coding CLI Sessions",
+  "description": "Start and monitor local Claude Code and Codex CLI sessions with explicit privacy and permission controls.",
+  "icon": "icon.png",
+  "author": "daryl9441",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22.22.2"
+  },
+  "platforms": [
+    "macOS"
+  ],
+  "categories": [
+    "Developer Tools"
+  ],
+  "commands": [
+    {
+      "name": "sessions",
+      "title": "Manage Coding Sessions",
+      "description": "Monitor local coding sessions, switch tasks, and stop managed processes",
+      "mode": "view"
+    },
+    {
+      "name": "new-task",
+      "title": "Start Coding Task",
+      "description": "Start a Claude Code or Codex task with permissions configured before launch",
+      "mode": "view"
+    },
+    {
+      "name": "diagnostics",
+      "title": "Check Coding CLI Setup",
+      "description": "Check installed CLI capabilities and login status without reading credentials",
+      "mode": "view"
+    },
+    {
+      "name": "clear-debug-logs",
+      "title": "Clear Coding CLI Debug Logs",
+      "description": "Remove only this extension’s temporary redacted debug logs",
+      "mode": "no-view"
+    }
+  ],
+  "preferences": [
+    {
+      "name": "claudePath",
+      "title": "Claude Executable",
+      "type": "textfield",
+      "required": false,
+      "description": "Optional absolute path to the installed Claude Code executable"
+    },
+    {
+      "name": "codexPath",
+      "title": "Codex Executable",
+      "type": "textfield",
+      "required": false,
+      "description": "Optional absolute path to the installed Codex executable"
+    },
+    {
+      "name": "nodePath",
+      "title": "Node Executable",
+      "type": "textfield",
+      "required": false,
+      "description": "Optional absolute path to Node.js 22+ for the local session supervisor; Node.js 24 recommended"
+    }
+  ],
+  "scripts": {
+    "build:supervisor": "node scripts/build-supervisor.mjs",
+    "build": "npm run build:supervisor && ray build -e dist",
+    "dev": "npm run build:supervisor && ray develop",
+    "lint": "ray lint",
+    "typecheck": "tsc --noEmit && tsc --noEmit -p tests/tsconfig.json",
+    "generate:icon": "node scripts/generate-icon.mjs",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "check:privacy": "node scripts/check-privacy.mjs",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "prepublishOnly": "node scripts/reject-npm-publish.mjs",
+    "publish": "ray publish"
+  },
+  "dependencies": {
+    "@raycast/api": "2.2.1",
+    "@raycast/utils": "2.3.1"
+  },
+  "devDependencies": {
+    "@raycast/eslint-config": "2.2.0",
+    "@testing-library/react": "16.3.3",
+    "@types/node": "22.13.10",
+    "@types/react": "19.2.18",
+    "@types/react-dom": "19.2.7",
+    "@vitest/coverage-v8": "5.0.0",
+    "esbuild": "0.28.2",
+    "eslint": "10.10.0",
+    "jsdom": "30.0.1",
+    "prettier": "3.9.6",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "sharp": "0.35.4",
+    "typescript": "5.9.3",
+    "vitest": "5.0.0"
+  }
+}

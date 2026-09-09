@@ -1,0 +1,6 @@
+node_modules
+dist
+coverage
+assets/supervisor.cjs
+raycast-env.d.ts
+docs/cli-help

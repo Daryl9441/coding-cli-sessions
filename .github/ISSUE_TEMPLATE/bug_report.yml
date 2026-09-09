@@ -1,0 +1,25 @@
+name: Bug report
+description: Report a reproducible problem using synthetic data
+body:
+  - type: markdown
+    attributes:
+      value: Do not include credentials, authentication files, full transcripts, or real prompts.
+  - type: input
+    id: versions
+    attributes:
+      label: Versions
+      description: macOS, Raycast, Node.js, Claude Code, and Codex versions
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction
+      description: Steps using a synthetic project and expected versus actual behavior
+    validations:
+      required: true
+  - type: textarea
+    id: diagnostics
+    attributes:
+      label: Sanitized diagnostics
+      description: Capability status or metadata-only errors, without transcript contents
